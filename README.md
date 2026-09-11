@@ -8,7 +8,7 @@
 
 ## ⚠️ 内容范围与免责声明
 
-- 本仓库**只包含本人编写的项目源码**，**不包含**课程视频、课程笔记、讲师参考代码、爬取语料、抽取结果、图谱数据、向量索引与模型权重。
+- 本仓库**只包含本人编写的项目源码与复现记录**，**不包含**课程视频、课程笔记、讲师参考代码、**课程提供的教学 demo 与提示词模板**、爬取语料、抽取结果、图谱数据、向量索引与模型权重。
 - 仓库中出现的接口地址、参数与提示词仅用于学习；**所有密钥一律通过 `.env` 提供**（见 `.env.example`），仓库内不含任何真实凭据。
 - 中医药内容仅作技术演示，**不构成医疗建议**。
 
@@ -63,7 +63,6 @@
 
 ```
 common/                       公共模块（配置/LLM/Neo4j/向量模型/路径/绘图）
-__000__demo/                  各技术点小样（FAISS、LangGraph、FastAPI、爬虫、提示词库）
 __001__clawler/               爬虫：方剂/中药 目录与详情
 __002__extract_information/   实体关系抽取（DeepSeek + LangChain + Pydantic）
 __003__create_neo4j_database/ 图谱导入、元数据导出、FAISS 索引构建
@@ -71,7 +70,7 @@ __004__langgraph_more_nodes/  LangGraph 图定义 + agent_state + 14 个节点
 __005__fastapi/               后端接口与消息队列（流式）
 __006__streamlit/             对话前端
 __007__fine_tune/             QLoRA 微调：数据集配置与 LLaMA-Factory 训练 yaml
-__008__graphrag/              GraphRAG 试验（可选）
+__008__graphrag/              GraphRAG 试验：parquet 处理与配置（提示词模板未收录，可选）
 __009__lightrag/              LightRAG 接口调用（可选）
 ```
 
@@ -211,3 +210,5 @@ Python 3.10 · Neo4j · LangChain · LangGraph · DeepSeek API · FAISS · sente
 
 - **原始 11 篇课程文档为内部资料，未随仓库发布**（本仓库只含本人编写的源码与复现记录）。
 - 复现的全过程记录见 **[`docs/REPRODUCTION.md`](docs/REPRODUCTION.md)**：环境搭建、逐文档完成度核对、代码修正、显存实测、微调对比与各项验证证据。
+- **已移除的内容**：课程提供的教学 demo（`__000__demo/`）与提示词模板（含 GraphRAG 的中医定制提示词）已从仓库剔除，以避免与课程版权冲突；如需运行 GraphRAG，请使用其上游仓库（Microsoft GraphRAG，MIT）自带的默认提示词。
+- 本项目为个人学习复现，实体/关系定义与提示词设计源自课程实训内容，**请勿用于商业用途**。
