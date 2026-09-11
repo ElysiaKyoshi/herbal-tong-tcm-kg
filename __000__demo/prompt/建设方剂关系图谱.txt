@@ -1,0 +1,386 @@
+以下代码是我的图谱代码：
+from neo4j import GraphDatabase
+from neo4j.exceptions import CypherSyntaxError
+from tqdm import tqdm
+
+
+class Neo4jClient:
+    def __init__(self, uri, user, password):
+        """初始化 Neo4j 驱动"""
+        self.driver = GraphDatabase.driver(uri, auth=(user, password))
+
+    def close(self):
+        """关闭连接"""
+        if self.driver:
+            self.driver.close()
+
+    def check_cypher_syntax(self, query, parameters=None):
+        """使用 EXPLAIN 检查 Cypher 语法是否正确"""
+        explain_query = f"EXPLAIN {query}"
+        try:
+            with self.driver.session() as session:
+                session.run(explain_query, parameters or {})
+            return True, "语法正确"
+        except CypherSyntaxError as e:
+            return False, f"语法错误: {str(e)}"
+        except Exception as e:
+            return False, f"其他错误: {str(e)}"
+
+    def run_cypher(self, query, parameters=None):
+        """执行一条 Cypher 查询"""
+        with self.driver.session() as session:
+            result = session.run(query, parameters or {})
+            return [record.data() for record in result]
+
+    def run_multiple_cypher(self, queries_with_params):
+        """
+        执行多条 Cypher 语句，使用事务，并显示 tqdm 进度条。
+
+        参数:
+            queries_with_params: List[Tuple[str, Dict]]
+                形式如: [("CREATE (n:Test {name: $name})", {"name": "Alice"}), ...]
+        """
+        with self.driver.session() as session:
+            def transaction_logic(tx):
+                for query, params in tqdm(queries_with_params, desc="执行 Cypher 语句"):
+                    tx.run(query, params or {})
+
+            session.execute_write(transaction_logic)
+
+我还有一个json文件，格式如下：
+[
+  {
+    "name": "麻黄汤",
+    "effects": [
+      "发汗解表",
+      "宣肺平喘"
+    ],
+    "indications": [
+      {
+        "content": "外感风寒",
+        "type": "疾病"
+      },
+      {
+        "content": "恶寒发热",
+        "type": "症状"
+      },
+      {
+        "content": "头痛身疼",
+        "type": "症状"
+      },
+      {
+        "content": "无汗而喘",
+        "type": "症状"
+      },
+      {
+        "content": "舌苔薄白",
+        "type": "症状"
+      },
+      {
+        "content": "脉浮紧",
+        "type": "症状"
+      }
+    ],
+    "ingredients": [
+      {
+        "herb": "麻黄",
+        "amount": "9克"
+      },
+      {
+        "herb": "桂枝",
+        "amount": "6克"
+      },
+      {
+        "herb": "杏仁",
+        "amount": "6克"
+      },
+      {
+        "herb": "炙甘草",
+        "amount": "3克"
+      }
+    ],
+    "relations": [
+      {
+        "disease": "感冒",
+        "symptoms": [
+          "恶寒发热",
+          "头痛身疼",
+          "无汗而喘"
+        ]
+      },
+      {
+        "disease": "流行性感冒",
+        "symptoms": [
+          "恶寒发热",
+          "头痛身疼",
+          "无汗而喘"
+        ]
+      },
+      {
+        "disease": "急性支气管炎",
+        "symptoms": [
+          "无汗而喘"
+        ]
+      },
+      {
+        "disease": "支气管哮喘",
+        "symptoms": [
+          "无汗而喘"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "葛根汤",
+    "effects": [
+      "发汗解毒",
+      "升津舒筋"
+    ],
+    "indications": [
+      {
+        "content": "外感风寒表实",
+        "type": "疾病"
+      },
+      {
+        "content": "恶寒发热",
+        "type": "症状"
+      },
+      {
+        "content": "头痛",
+        "type": "症状"
+      },
+      {
+        "content": "项背强几",
+        "type": "症状"
+      },
+      {
+        "content": "身痛无汗",
+        "type": "症状"
+      },
+      {
+        "content": "腹微痛",
+        "type": "症状"
+      },
+      {
+        "content": "下利",
+        "type": "症状"
+      },
+      {
+        "content": "干呕",
+        "type": "症状"
+      },
+      {
+        "content": "微喘",
+        "type": "症状"
+      },
+      {
+        "content": "舌淡苔白",
+        "type": "症状"
+      },
+      {
+        "content": "脉浮紧",
+        "type": "症状"
+      }
+    ],
+    "ingredients": [
+      {
+        "herb": "葛根",
+        "amount": "12克"
+      },
+      {
+        "herb": "麻黄",
+        "amount": "9克"
+      },
+      {
+        "herb": "桂枝",
+        "amount": "6克"
+      },
+      {
+        "herb": "生姜",
+        "amount": "9克"
+      },
+      {
+        "herb": "甘草",
+        "amount": "6克"
+      },
+      {
+        "herb": "芍药",
+        "amount": "6克"
+      },
+      {
+        "herb": "大枣",
+        "amount": "12枚"
+      }
+    ],
+    "relations": [
+      {
+        "disease": "感冒",
+        "symptoms": [
+          "恶寒发热",
+          "头痛",
+          "身痛无汗"
+        ]
+      },
+      {
+        "disease": "流行性感冒",
+        "symptoms": [
+          "恶寒发热",
+          "头痛",
+          "身痛无汗"
+        ]
+      },
+      {
+        "disease": "麻疹",
+        "symptoms": [
+          "恶寒发热",
+          "头痛"
+        ]
+      },
+      {
+        "disease": "痢疾",
+        "symptoms": [
+          "下利",
+          "腹微痛"
+        ]
+      },
+      {
+        "disease": "关节痛",
+        "symptoms": [
+          "项背强几",
+          "身痛无汗"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "葛根加半夏汤",
+    "effects": [
+      "发汗解表",
+      "舒筋止呕"
+    ],
+    "indications": [
+      {
+        "content": "外感风寒",
+        "type": "疾病"
+      },
+      {
+        "content": "头痛",
+        "type": "症状"
+      },
+      {
+        "content": "项背强直拘急",
+        "type": "症状"
+      },
+      {
+        "content": "无汗",
+        "type": "症状"
+      },
+      {
+        "content": "口不渴",
+        "type": "症状"
+      },
+      {
+        "content": "呕逆",
+        "type": "症状"
+      },
+      {
+        "content": "苔白",
+        "type": "症状"
+      },
+      {
+        "content": "脉浮",
+        "type": "症状"
+      }
+    ],
+    "ingredients": [
+      {
+        "herb": "葛根",
+        "amount": "12克"
+      },
+      {
+        "herb": "麻黄",
+        "amount": "9克"
+      },
+      {
+        "herb": "甘草",
+        "amount": "6克"
+      },
+      {
+        "herb": "芍药",
+        "amount": "6克"
+      },
+      {
+        "herb": "桂枝",
+        "amount": "6克"
+      },
+      {
+        "herb": "生姜",
+        "amount": "6克"
+      },
+      {
+        "herb": "半夏",
+        "amount": "9克"
+      },
+      {
+        "herb": "大枣",
+        "amount": "12枚"
+      }
+    ],
+    "relations": null
+  },
+  {
+    "name": "麻黄加术汤",
+    "effects": [
+      "发汗解表",
+      "散寒祛湿"
+    ],
+    "indications": [
+      {
+        "content": "风寒湿痹",
+        "type": "疾病"
+      },
+      {
+        "content": "身体烦疼",
+        "type": "症状"
+      },
+      {
+        "content": "无汗",
+        "type": "症状"
+      }
+    ],
+    "ingredients": [
+      {
+        "herb": "麻黄",
+        "amount": "9克"
+      },
+      {
+        "herb": "桂枝",
+        "amount": "6克"
+      },
+      {
+        "herb": "杏仁",
+        "amount": "6克"
+      },
+      {
+        "herb": "炙甘草",
+        "amount": "3克"
+      },
+      {
+        "herb": "白术",
+        "amount": "12克"
+      }
+    ],
+    "relations": null
+  },
+
+帮我写以下的cypher语句，能够插入json文件中的数据到neo4j中吗
+希望帮我写个代码，能够建立以下关系
+某个方剂有什么功效，建立功效实体，并进行关联
+某个方剂由哪些中药组成，进行关联中药实体（如果不存在某中药，则需要新增中药实体），关系中要有一个份量的属性。
+某个方剂能治疗什么疾病，要建立疾病实体，并进行关联
+某个方剂能缓解什么症状，要建立症状实体，并进行关联
+某疾病由哪些症状组成，要建立疾病实体和症状实体，并进行关联。
+
+另外，针对所有属性和关系，都要添加一个特别属性，内容为中医，因为我现在用的是免费版的neo4j，只能建一个图，所以要用属性加以区分是什么项目。project=TCM
+
+你帮我写个代码实现以上功能

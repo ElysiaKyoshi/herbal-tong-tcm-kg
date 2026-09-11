@@ -1,0 +1,47 @@
+### LLaMA-Factory QLoRA 训练配置
+### 基座：Qwen2.5-1.5B-Instruct    任务：从中医文本抽取实体关系（instruction/input/output）
+### 对齐 doc09 的参数：stage=sft / finetuning_type=lora / r=8 / alpha=16 / dropout=0.05
+###                   lora_target=q_proj,v_proj / template=qwen / cosine / epochs=3 / lr=2e-4
+### 本机适配（RTX 3060 Laptop 6GB）：quantization_bit=4（QLoRA）、batch=1、梯度累积=8、梯度检查点
+
+### ── 模型 ──
+model_name_or_path: D:/models/Qwen2.5-1.5B-Instruct
+trust_remote_code: true
+
+### ── 微调方法 ──
+stage: sft
+do_train: true
+finetuning_type: lora
+quantization_bit: 4
+lora_rank: 8
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target: q_proj,v_proj
+
+### ── 数据集 ──
+dataset: zhongyi_zh_2048
+dataset_dir: D:/暑期实训/中医知识图谱/01-code/ChineseMedicalNewProjectEdit/__007__fine_tune/llamafactory_data
+template: qwen
+cutoff_len: 2048
+max_samples: 1217
+overwrite_cache: true
+preprocessing_num_workers: 4
+
+### ── 输出 ──
+output_dir: D:/models/qwen2.5-1.5b-tcm-lora
+logging_steps: 5
+save_steps: 200
+save_total_limit: 3
+plot_loss: true
+overwrite_output_dir: true
+report_to: none
+
+### ── 训练超参 ──
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 8
+learning_rate: 2.0e-4
+num_train_epochs: 3
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+gradient_checkpointing: true

@@ -1,0 +1,60 @@
+# ===== 环境与凭据（绝不提交）=====
+.env
+.env.*
+!.env.example
+
+# 小红书登录态（凭据）
+cookie/*
+!cookie/.gitkeep
+
+# 运行时生成的小红书配图
+picture/*
+!picture/.gitkeep
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ===== IDE / 系统 =====
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ===== 数据与产物（体积大，按 README 的管线自行生成）=====
+# 爬虫产物
+__001__clawler/中药/
+__001__clawler/方剂/
+__001__clawler/*.xlsx
+# 实体关系抽取结果
+__002__extract_information/*.json
+# 图谱与向量索引
+__003__create_neo4j_database/*.index
+__003__create_neo4j_database/*.pkl
+# 微调语料（dataset_info.json 保留）
+__007__fine_tune/*.json
+__007__fine_tune/llamafactory_data/*.json
+!__007__fine_tune/llamafactory_data/dataset_info.json
+# GraphRAG / LightRAG 中间产物
+__008__graphrag/**/cache/
+__008__graphrag/**/output/
+__008__graphrag/**/logs/
+__008__graphrag/**/input/
+__008__graphrag/**/data_process/
+__009__lightrag/**/rag_storage/
+
+# ===== 模型与训练产物 =====
+*.safetensors
+*.bin
+*.ckpt
+*.pt
+saves/
+outputs/
+wandb/
+
+# ===== 日志 =====
+*.log

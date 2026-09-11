@@ -1,0 +1,35 @@
+### 0.5B 冒烟测试：8 条样本，验证 4-bit QLoRA 在 6GB 上可跑通
+model_name_or_path: D:/models/Qwen2.5-0.5B-Instruct
+trust_remote_code: true
+
+stage: sft
+do_train: true
+finetuning_type: lora
+quantization_bit: 4
+lora_rank: 8
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target: q_proj,v_proj
+
+dataset: zhongyi_zh_2048
+dataset_dir: D:/暑期实训/中医知识图谱/01-code/ChineseMedicalNewProjectEdit/__007__fine_tune/llamafactory_data
+template: qwen
+cutoff_len: 2048
+max_samples: 8
+overwrite_cache: true
+preprocessing_num_workers: 2
+
+output_dir: D:/models/_smoke_0.5b
+logging_steps: 1
+save_steps: 1000
+overwrite_output_dir: true
+report_to: none
+
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 4
+learning_rate: 2.0e-4
+num_train_epochs: 1
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+gradient_checkpointing: true

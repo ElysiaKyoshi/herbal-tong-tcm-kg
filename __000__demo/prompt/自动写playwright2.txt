@@ -1,0 +1,144 @@
+from langchain_core.runnables import Runnable
+from playwright.sync_api import sync_playwright
+
+from __000__demo.xiaohongshu.agent_state import AgentState
+import os
+
+
+class XiaohongshuUploader:
+    COOKIE_PATH = "xiaohongshu_state.json"
+    PUBLISH_URL = "https://creator.xiaohongshu.com/publish/publish?from=homepage&target=image&source=official"
+
+    def __init__(self, image_paths, title="", content=""):
+        self.image_paths = image_paths if isinstance(image_paths, list) else [image_paths]
+        self.title = title
+        self.content = content
+        self.playwright = None
+        self.browser = None
+        self.context = None
+        self.page = None
+
+    def launch(self):
+        self.playwright = sync_playwright().start()
+        self.browser = self.playwright.chromium.launch(headless=False)
+
+        if os.path.exists(self.COOKIE_PATH):
+            print("[√] 加载已保存的登录状态...")
+            self.context = self.browser.new_context(
+                storage_state=self.COOKIE_PATH,
+                permissions=["geolocation"],
+                geolocation={"latitude": 31.2304, "longitude": 121.4737}
+            )
+        else:
+            print("[!] 未检测到登录状态，创建新上下文...")
+            self.context = self.browser.new_context(
+                permissions=["geolocation"],
+                geolocation={"latitude": 31.2304, "longitude": 121.4737}
+            )
+
+        self.page = self.context.new_page()
+        self.page.goto(self.PUBLISH_URL)
+
+        if not os.path.exists(self.COOKIE_PATH):
+            input("请手动登录后按回车继续...")
+            self.context.storage_state(path=self.COOKIE_PATH)
+            print("[√] 登录状态已保存")
+        self.wait_seconds(1)
+
+    def switch_to_image_post(self):
+        print("🔀 正在切换到【上传图文】Tab...")
+
+        try:
+            # 等待所有 tab 出现
+            self.page.wait_for_selector('.creator-tab .title', timeout=10000)
+
+            # 获取所有包含“上传图文”的 tab
+            tabs = self.page.query_selector_all('.creator-tab .title')
+            target_tab = None
+
+            for tab in tabs:
+                text = tab.inner_text().strip()
+                if "上传图文" in text:
+                    box = tab.bounding_box()
+                    # 过滤掉隐藏的节点（box=None 或者位置过于极端）
+                    if box and box["x"] > 0 and box["y"] > 0:
+                        target_tab = tab
+                        break
+
+            if target_tab:
+                target_tab.click()
+                print("[√] 已成功切换到【上传图文】Tab")
+            else:
+                print("[x] 未找到可点击的【上传图文】Tab")
+
+        except Exception as e:
+            print(f"[X] 切换失败: {e}")
+
+
+    def fill_title_and_content(self):
+        print("📝 正在填写标题和正文...")
+
+        # 填写标题
+        try:
+            title_input = self.page.wait_for_selector('input.d-text[placeholder*="填写标题"]', timeout=10000)
+            title_input.fill(self.title)
+            print(f"[√] 标题已填写：{self.title}")
+        except:
+            print("[x] 未找到标题输入框")
+
+        # 填写正文
+        try:
+            editor = self.page.wait_for_selector('.tiptap[contenteditable="true"]', timeout=10000)
+            editor.click()
+            editor.type(self.content)
+            print(f"[√] 正文已填写：{self.content}")
+        except:
+            print("[x] 未找到正文编辑器")
+
+    def submit_post(self):
+        self.wait_seconds(3)
+        print("🚀 正在尝试点击发布按钮...")
+
+        try:
+            # 等待“发布”按钮出现并可点击
+            self.page.wait_for_selector('button:has-text("发布")', timeout=10000)
+            publish_button = self.page.query_selector('button:has-text("发布")')
+
+            if publish_button:
+                publish_button.click()
+                print("[√] 发布按钮已点击")
+            else:
+                print("[!] 未找到发布按钮")
+        except Exception as e:
+            print(f"[X] 发布失败: {e}")
+
+    def close(self):
+        # 等待4秒
+        self.wait_seconds(4)
+        self.browser.close()
+        self.playwright.stop()
+
+    def wait_seconds(self, seconds):
+        print(f"⏳ 等待 {seconds} 秒...")
+        self.page.wait_for_timeout(seconds * 1000)
+
+
+def auto_publish_xiaohongshu(images, title, content):
+    print("🚀 开始上传小红书...")
+    xhs = XiaohongshuUploader(images, title, content)
+    # 启动浏览器，加载发布页面
+    xhs.launch()
+    xhs.switch_to_image_post()
+    xhs.upload_images(images)
+    xhs.wait_seconds(100000)
+    # xhs.fill_title_and_content()
+    # # 最后点击发布
+    # xhs.submit_post()
+    # 结束浏览器
+    xhs.close()
+
+已知我的代码如上，帮我写一下函数upload_images。
+能够将图片images列表上传上去，已知，images里面放的是本地的图片路径。
+已知页面元素如下：
+<div data-v-a072aeea="" data-v-4ce0e210="" class="upload-container"><div data-v-a072aeea="" class="header"><div data-v-16fdb080="" data-v-a072aeea="" class="creator-tab"><span data-v-16fdb080="" class="title">上传视频</span><div data-v-16fdb080="" class="underline"></div></div><div data-v-16fdb080="" data-v-a072aeea="" class="creator-tab" style="position: absolute; left: -9999px; top: -9999px;"><span data-v-16fdb080="" class="title">上传图文</span><div data-v-16fdb080="" class="underline"></div></div><div data-v-16fdb080="" data-v-a072aeea="" class="creator-tab active"><span data-v-16fdb080="" class="title">上传图文</span><div data-v-16fdb080="" class="underline"></div></div><div data-v-16fdb080="" data-v-a072aeea="" class="creator-tab"><span data-v-16fdb080="" class="title">写长文</span><div data-v-16fdb080="" class="underline"></div></div></div><!----><div data-v-a072aeea="" class="upload-content"><!----><div data-v-8c223b18="" class="upload-wrapper"><div data-v-7cbccdb2="" data-v-8c223b18="" class="drag-over"><input data-v-8c223b18="" data-v-7cbccdb2-s="" class="upload-input" type="file" multiple="" accept=".jpg,.jpeg,.png,.webp"><div data-v-8c223b18="" data-v-7cbccdb2-s="" class="wrapper"><img data-v-8c223b18="" data-v-7cbccdb2-s="" class="upload-icon" src="https://fe-static.xhscdn.com/formula-static/ugc/public/resource/image/upload-large.824f96f8.png"><p data-v-8c223b18="" data-v-7cbccdb2-s="" class="drag-text">拖拽图片到此或点击上传</p><p data-v-8c223b18="" data-v-7cbccdb2-s="" class="info">（最多支持上传18张）</p><button data-v-8c223b18="" data-v-7cbccdb2-s="" aria-disabled="false" type="button" class="el-button upload-button" style="--el-button-bg-color: #ff2442; --el-button-text-color: var(--el-color-white); --el-button-border-color: #ff2442; --el-button-hover-bg-color: rgb(255, 102, 123); --el-button-hover-text-color: var(--el-color-white); --el-button-hover-border-color: rgb(255, 102, 123); --el-button-active-bg-color: rgb(208, 33, 57); --el-button-active-border-color: rgb(208, 33, 57);"><!--v-if--><span class="">上传图片</span></button></div></div></div><div data-v-8c223b18="" class="tips-wrapper"><div data-v-8c223b18="" class="tip"><div data-v-8c223b18=""><p data-v-8c223b18="" class="tip-title">图片大小</p><p data-v-8c223b18="" class="tip-content">支持上传的图片大小，</p><p data-v-8c223b18="" class="tip-content">最大32MB的图片文件</p></div></div><div data-v-8c223b18="" class="tip"><div data-v-8c223b18=""><p data-v-8c223b18="" class="tip-title">图片格式</p><p data-v-8c223b18="" class="tip-content">支持上传的图片格式，</p><p data-v-8c223b18="" class="tip-content">推荐使用png、jpg、jpeg、webp，不支持gif、live及其转化后的图片 </p></div></div><div data-v-8c223b18="" class="tip"><div data-v-8c223b18=""><p data-v-8c223b18="" class="tip-title">图片分辨率</p><p data-v-8c223b18="" class="tip-content">不限制宽高比例，推荐上传3:4至2:1之间、分辨率不低于720*960的照片，</p><p data-v-8c223b18="" class="tip-content">超过1280P的图片用网页端上传画质更清晰</p></div></div></div><!----></div></div>
+

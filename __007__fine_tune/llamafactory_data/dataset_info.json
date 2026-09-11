@@ -1,0 +1,18 @@
+{
+  "zhongyi_zh_demo": {
+    "file_name": "zhongyi_zh_demo.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "zhongyi_zh_2048": {
+    "file_name": "zhongyi_zh_2048.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  }
+}

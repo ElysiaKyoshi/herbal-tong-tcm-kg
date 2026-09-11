@@ -1,0 +1,31 @@
+# 微调依赖（doc09）—— 与主项目分开的独立环境
+# 重要：新版 LLaMA-Factory 要求 Python >= 3.11；6GB 显存下请用 0.5B 基座（见 README）
+#
+# 1) 建独立环境（示例用 venv；不要装进主项目环境）
+#    "C:\path\to\python312\python.exe" -m venv D:\venvs\tune312
+#    D:\venvs\tune312\Scripts\python -m pip install --upgrade pip
+#
+# 2) 装 CUDA 版 torch（走 pytorch 官方源更快；cu126 对应 sm_86 的 RTX 30 系）
+#    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+#    （本机实测：torch 2.14.0+cu126 / torchvision 0.29.0+cu126 / torchaudio 2.11.0+cu126）
+#
+# 3) 装 LLaMA-Factory（其 pyproject 会带上下列依赖；国内建议换镜像）
+#    git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git
+#    pip install -e LLaMA-Factory -i https://repo.huaweicloud.com/repository/pypi/simple/
+#
+# 4) 4-bit QLoRA 必需
+#    pip install bitsandbytes -i https://repo.huaweicloud.com/repository/pypi/simple/
+#
+# 以下为本机实测通过的版本（仅供对照，正式安装由 LLaMA-Factory 的 pyproject 决定）
+torch==2.14.0+cu126
+torchvision==0.29.0+cu126
+torchaudio==2.11.0+cu126
+transformers==5.8.0
+peft==0.18.1
+trl==0.24.0
+datasets==4.0.0
+accelerate==1.11.0
+bitsandbytes==0.50.2
+sentencepiece==0.2.2
+modelscope==1.40.0
+# llamafactory==0.9.6.dev0   （由 pip install -e LLaMA-Factory 安装）

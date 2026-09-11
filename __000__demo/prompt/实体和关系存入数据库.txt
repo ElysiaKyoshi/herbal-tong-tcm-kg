@@ -1,0 +1,928 @@
+已知我抽取实体和关系获得了以下的内容：
+{
+  "results": [
+    {
+      "filename": "生血补髓汤.txt",
+      "extract_dict": {
+        "entities": [
+          {
+            "name": "生血补髓汤",
+            "type": "Formula",
+            "attributes": {
+              "indication": "跌打损伤",
+              "usage": "水、酒各半盏，加大枣，煎8分，食远服"
+            }
+          },
+          {
+            "name": "当归",
+            "type": "Herb"
+          },
+          {
+            "name": "生地",
+            "type": "Herb"
+          },
+          {
+            "name": "熟地",
+            "type": "Herb"
+          },
+          {
+            "name": "白术",
+            "type": "Herb"
+          },
+          {
+            "name": "枳壳",
+            "type": "Herb"
+          },
+          {
+            "name": "荆芥",
+            "type": "Herb"
+          },
+          {
+            "name": "白芍",
+            "type": "Herb"
+          },
+          {
+            "name": "防风",
+            "type": "Herb"
+          },
+          {
+            "name": "广皮",
+            "type": "Herb"
+          },
+          {
+            "name": "杜仲",
+            "type": "Herb"
+          },
+          {
+            "name": "丹皮",
+            "type": "Herb"
+          },
+          {
+            "name": "川芎",
+            "type": "Herb"
+          },
+          {
+            "name": "干姜",
+            "type": "Herb"
+          },
+          {
+            "name": "牛膝",
+            "type": "Herb"
+          },
+          {
+            "name": "独活",
+            "type": "Herb"
+          },
+          {
+            "name": "五加皮",
+            "type": "Herb"
+          },
+          {
+            "name": "川续断",
+            "type": "Herb"
+          },
+          {
+            "name": "黄耆",
+            "type": "Herb"
+          },
+          {
+            "name": "熟艾",
+            "type": "Herb"
+          },
+          {
+            "name": "香附",
+            "type": "Herb"
+          },
+          {
+            "name": "羌活",
+            "type": "Herb"
+          },
+          {
+            "name": "鲜红花",
+            "type": "Herb"
+          },
+          {
+            "name": "甘草",
+            "type": "Herb"
+          },
+          {
+            "name": "云茯苓",
+            "type": "Herb"
+          },
+          {
+            "name": "跌打损伤",
+            "type": "Disease"
+          },
+          {
+            "name": "《接骨入骱》",
+            "type": "Source"
+          }
+        ],
+        "relations": [
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "FROM_SOURCE",
+            "object": "《接骨入骱》",
+            "object_type": "Source"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "TREATS_DISEASE",
+            "object": "跌打损伤",
+            "object_type": "Disease"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "当归",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "生地",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "熟地",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "白术",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "枳壳",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "荆芥",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "白芍",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "防风",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "广皮",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "杜仲",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "丹皮",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "川芎",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "干姜",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "牛膝",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "独活",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "五加皮",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "川续断",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "黄耆",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "熟艾",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "香附",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "羌活",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "鲜红花",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "甘草",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "生血补髓汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "云茯苓",
+            "object_type": "Herb"
+          }
+        ]
+      }
+    },
+    {
+      "filename": "翟平薯蓣丸.txt",
+      "extract_dict": {
+        "entities": [
+          {
+            "name": "翟平薯蓣丸",
+            "type": "Formula",
+            "attributes": {
+              "indication": "诸虚劳损",
+              "usage": "每服20丸，酒送下，日1次，夜1次",
+              "taboo": "慎食蒜、醋、陈、臭等物"
+            }
+          },
+          {
+            "name": "《千金翼》",
+            "type": "Source"
+          },
+          {
+            "name": "薯蓣",
+            "type": "Herb"
+          },
+          {
+            "name": "牛膝",
+            "type": "Herb"
+          },
+          {
+            "name": "菟丝子",
+            "type": "Herb"
+          },
+          {
+            "name": "泽泻",
+            "type": "Herb"
+          },
+          {
+            "name": "干地黄",
+            "type": "Herb"
+          },
+          {
+            "name": "茯苓",
+            "type": "Herb"
+          },
+          {
+            "name": "巴戟天",
+            "type": "Herb"
+          },
+          {
+            "name": "赤石脂",
+            "type": "Herb"
+          },
+          {
+            "name": "山茱萸",
+            "type": "Herb"
+          },
+          {
+            "name": "杜仲",
+            "type": "Herb"
+          },
+          {
+            "name": "苁蓉",
+            "type": "Herb"
+          },
+          {
+            "name": "五味子",
+            "type": "Herb"
+          },
+          {
+            "name": "敦煌石膏",
+            "type": "Herb"
+          },
+          {
+            "name": "远志",
+            "type": "Herb"
+          },
+          {
+            "name": "柏子仁",
+            "type": "Herb"
+          }
+        ],
+        "relations": [
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "FROM_SOURCE",
+            "object": "《千金翼》",
+            "object_type": "Source"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "薯蓣",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "牛膝",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "菟丝子",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "泽泻",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "干地黄",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "茯苓",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "巴戟天",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "赤石脂",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "山茱萸",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "杜仲",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "苁蓉",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "翟平薯蓣丸",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "五味子",
+            "object_type": "Herb"
+          }
+        ]
+      }
+    },
+    {
+      "filename": "桂枝去芍药汤.txt",
+      "extract_dict": {
+        "entities": [
+          {
+            "name": "桂枝去芍药汤",
+            "type": "Formula",
+            "attributes": {
+              "effect": "发汗解肌祛风，去阴通阳",
+              "indication": "太阳病，下之后，脉促胸满者",
+              "usage": "以水7升，煮取3升，去滓，温服1升"
+            }
+          },
+          {
+            "name": "伤寒论",
+            "type": "Source"
+          },
+          {
+            "name": "桂枝",
+            "type": "Herb"
+          },
+          {
+            "name": "甘草",
+            "type": "Herb"
+          },
+          {
+            "name": "生姜",
+            "type": "Herb"
+          },
+          {
+            "name": "大枣",
+            "type": "Herb"
+          }
+        ],
+        "relations": [
+          {
+            "subject": "桂枝去芍药汤",
+            "subject_type": "Formula",
+            "relation": "FROM_SOURCE",
+            "object": "伤寒论",
+            "object_type": "Source"
+          },
+          {
+            "subject": "桂枝去芍药汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "桂枝",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "桂枝去芍药汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "甘草",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "桂枝去芍药汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "生姜",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "桂枝去芍药汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "大枣",
+            "object_type": "Herb"
+          }
+        ]
+      }
+    },
+    {
+      "filename": "承气养营汤.txt",
+      "extract_dict": {
+        "entities": [
+          {
+            "name": "承气养营汤",
+            "type": "Formula",
+            "attributes": {
+              "effect": "泻积通便，养血清热。滋阴增液，通便泄热",
+              "indication": "热结在里，阴血已虚。证见身热不解，腹硬满痛，咽干渴饮，唇燥口裂，大便不通，舌质红，苔黄，脉数者。温疫数下亡阴，唇燥口裂，咽干渴饮，身热不解，腹硬满而痛，大便不通者"
+            }
+          },
+          {
+            "name": "知母",
+            "type": "Herb"
+          },
+          {
+            "name": "当归",
+            "type": "Herb"
+          },
+          {
+            "name": "芍药",
+            "type": "Herb"
+          },
+          {
+            "name": "生地",
+            "type": "Herb"
+          },
+          {
+            "name": "大黄",
+            "type": "Herb"
+          },
+          {
+            "name": "枳实",
+            "type": "Herb"
+          },
+          {
+            "name": "厚朴",
+            "type": "Herb"
+          },
+          {
+            "name": "肠梗阻",
+            "type": "Disease"
+          },
+          {
+            "name": "腹硬满痛",
+            "type": "Symptom"
+          },
+          {
+            "name": "咽干渴饮",
+            "type": "Symptom"
+          },
+          {
+            "name": "大便不通",
+            "type": "Symptom"
+          }
+        ],
+        "relations": [
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "知母",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "当归",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "芍药",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "生地",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "大黄",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "枳实",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "厚朴",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "TREATS_DISEASE",
+            "object": "肠梗阻",
+            "object_type": "Disease"
+          },
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "ALLEVIATES_SYMPTOM",
+            "object": "腹硬满痛",
+            "object_type": "Symptom"
+          },
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "ALLEVIATES_SYMPTOM",
+            "object": "咽干渴饮",
+            "object_type": "Symptom"
+          },
+          {
+            "subject": "承气养营汤",
+            "subject_type": "Formula",
+            "relation": "ALLEVIATES_SYMPTOM",
+            "object": "大便不通",
+            "object_type": "Symptom"
+          }
+        ]
+      }
+    },
+    {
+      "filename": "三黄洗剂.txt",
+      "extract_dict": {
+        "entities": [
+          {
+            "name": "三黄洗剂",
+            "type": "Formula",
+            "attributes": {
+              "effect": "清热燥湿，收涩止痒",
+              "indication": "各种急性无渗出性皮炎，单纯性皮肤瘙痒",
+              "usage": "共研细末，用10～15克，加人蒸馏水100毫升，医用石炭酸1毫升，摇匀，以棉签蘸搽患处，每日多次"
+            }
+          },
+          {
+            "name": "《外伤科学》",
+            "type": "Source"
+          },
+          {
+            "name": "大黄",
+            "type": "Herb"
+          },
+          {
+            "name": "黄柏",
+            "type": "Herb"
+          },
+          {
+            "name": "黄芩",
+            "type": "Herb"
+          },
+          {
+            "name": "苦参",
+            "type": "Herb"
+          },
+          {
+            "name": "清热燥湿",
+            "type": "Effect"
+          },
+          {
+            "name": "收涩止痒",
+            "type": "Effect"
+          },
+          {
+            "name": "急性无渗出性皮炎",
+            "type": "Disease"
+          },
+          {
+            "name": "单纯性皮肤瘙痒",
+            "type": "Disease"
+          }
+        ],
+        "relations": [
+          {
+            "subject": "三黄洗剂",
+            "subject_type": "Formula",
+            "relation": "FROM_SOURCE",
+            "object": "《外伤科学》",
+            "object_type": "Source"
+          },
+          {
+            "subject": "三黄洗剂",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "大黄",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "三黄洗剂",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "黄柏",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "三黄洗剂",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "黄芩",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "三黄洗剂",
+            "subject_type": "Formula",
+            "relation": "HAS_INGREDIENT",
+            "object": "苦参",
+            "object_type": "Herb"
+          },
+          {
+            "subject": "三黄洗剂",
+            "subject_type": "Formula",
+            "relation": "HAS_EFFECT",
+            "object": "清热燥湿",
+            "object_type": "Effect"
+          },
+          {
+            "subject": "三黄洗剂",
+            "subject_type": "Formula",
+            "relation": "HAS_EFFECT",
+            "object": "收涩止痒",
+            "object_type": "Effect"
+          },
+          {
+            "subject": "三黄洗剂",
+            "subject_type": "Formula",
+            "relation": "TREATS_DISEASE",
+            "object": "急性无渗出性皮炎",
+            "object_type": "Disease"
+          },
+          {
+            "subject": "三黄洗剂",
+            "subject_type": "Formula",
+            "relation": "TREATS_DISEASE",
+            "object": "单纯性皮肤瘙痒",
+            "object_type": "Disease"
+          }
+        ]
+      }
+    },
+    {
+      "filename": "桂枝汤.txt",
+      "extract_dict": {
+        "entities": [
+          {
+            "name": "桂枝汤",
+            "type": "Formula",
+            "attributes": {
+              "effect": "解肌发表，调和营卫",
+              "indication": "外感风寒表虚证。头痛发热，汗出恶风，鼻鸣干呕，苔白不渴，脉浮缓或浮弱者",
+              "usage": "现在常用于半身汗出，效果颇佳；成人遗尿，加龙骨、牡蛎；以及遗精早泄等证"
+            }
+          },
+          {
+            "name": "桂枝",
+            "type": "Herb",
+            "attributes": {
+              "effect": "发汗解肌，温经通络，助阳化气"
+            }
+          },
+          {
+            "name": "芍药",
+            "type": "Herb",
+            "attributes": {
+              "effect": "养血调经，平肝止痛，敛阴止汗"
+            }
+          },
+          {
+            "name": "甘草",
+            "type": "Herb",
+            "attributes": {
+              "effect": "益气补中，清热解毒，祛痰止咳，缓急止痛，调和药性"
+            }
+以上只是部分实例，实际上我的数据结构如下：
+EntityType = Literal["Symptom", "Disease", "Formula", "Herb", "Effect", "Source"]
+
+RelationType = Literal[
+    "TREATS_DISEASE",
+    "ALLEVIATES_SYMPTOM",
+    "HAS_EFFECT",
+    "HAS_INGREDIENT",
+    "HAS_SYMPTOM",
+    "FROM_SOURCE"
+]
+
+
+# ======================
+# 属性定义
+# ======================
+class FormulaAttributes(BaseModel):
+    alias: Optional[str] = None
+    effect: Optional[str] = None
+    indication: Optional[str] = None
+    taboo: Optional[str] = None
+    usage: Optional[str] = None
+
+
+class HerbAttributes(BaseModel):
+    dosage: Optional[str] = None
+    effect: Optional[str] = None
+    indication: Optional[str] = None
+    meridian: Optional[str] = None
+    origin: Optional[str] = None
+    place: Optional[str] = None
+    processing: Optional[str] = None
+    property_flavor: Optional[str] = None
+    taboo: Optional[str] = None
+    traits: Optional[str] = None
+
+
+# ======================
+# 实体与关系结构
+# ======================
+class Entity(BaseModel):
+    name: str
+    type: EntityType
+    attributes: Optional[Union[FormulaAttributes, HerbAttributes]] = None
+
+
+class Relation(BaseModel):
+    subject: str
+    subject_type: EntityType
+    relation: RelationType
+    object: str
+    object_type: EntityType
+
+
+class TCMKnowledgeGraph(BaseModel):
+    entities: List[Entity]
+    relations: List[Relation]
+
+
+
+
+已知我的数据库代码如下：
+class Neo4jClient:
+    def __init__(self, uri, user, password):
+        """初始化连接"""
+        self.driver = GraphDatabase.driver(uri, auth=(user, password))
+
+    def __del__(self):
+        """关闭连接"""
+        if self.driver is not None:
+            self.driver.close()
+
+    def run_cypher(self, query, parameters=None):
+        """
+        执行一条 Cypher 语句并返回结果
+        :param query: Cypher 查询语句
+        :param parameters: 可选参数字典
+        :return: 查询结果列表（每一行是一个 dict）
+        """
+        with self.driver.session() as session:
+            result = session.run(query, parameters or {})
+            return [record.data() for record in result]
+
+neo4j_client = Neo4jClient(conf.NEO4J_URI, conf.NEO4J_USER, conf.NEO4J_PASSWORD)
+
+现在希望能够将以上内容存储进入neo4j数据库中。
+相同名字的实体为同一个实体，不重复插入。
+输入为一个json文件，实现效果为输入到neo4j数据库中。

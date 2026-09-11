@@ -1,0 +1,48 @@
+### QLoRA 微调配置（Qwen2.5-0.5B-Instruct）
+### 为什么换 0.5B：本机 6GB 显存下，1.5B 的可用 cutoff_len 上限仅 ~1024，
+###   而语料 response(JSON) 中位 995 tokens / p90 1676，1.5B 会导致目标被截断。
+###   0.5B 常驻显存约为 1.5B 的 1/4，可在 cutoff_len=2048 上完整训练 1,217 条样本。
+### 参数对齐 doc09：stage=sft / lora / r=8 / alpha=16 / dropout=0.05 / target=q_proj,v_proj
+###                template=qwen / cosine / epochs=3 / lr=2e-4
+
+### ── 模型 ──
+model_name_or_path: D:/models/Qwen2.5-0.5B-Instruct
+trust_remote_code: true
+
+### ── 微调方法 ──
+stage: sft
+do_train: true
+finetuning_type: lora
+quantization_bit: 4
+lora_rank: 8
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target: q_proj,v_proj
+
+### ── 数据集（已过滤为 prompt+response ≤ 2048 tokens）──
+dataset: zhongyi_zh_2048
+dataset_dir: D:/暑期实训/中医知识图谱/01-code/ChineseMedicalNewProjectEdit/__007__fine_tune/llamafactory_data
+template: qwen
+cutoff_len: 2048
+max_samples: 1217
+overwrite_cache: true
+preprocessing_num_workers: 4
+
+### ── 输出 ──
+output_dir: D:/models/qwen2.5-0.5b-tcm-lora
+logging_steps: 5
+save_steps: 200
+save_total_limit: 3
+plot_loss: true
+overwrite_output_dir: true
+report_to: none
+
+### ── 训练超参 ──
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 8
+learning_rate: 2.0e-4
+num_train_epochs: 3
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+gradient_checkpointing: true

@@ -1,0 +1,172 @@
+import os
+import json
+import pandas as pd
+from tqdm import tqdm
+from pydantic import BaseModel, Field
+from langchain_core.prompts import ChatPromptTemplate
+from langchain.output_parsers import PydanticOutputParser
+from langchain_openai import ChatOpenAI
+from common.config import Config
+from common.path_utils import get_file_path
+
+# ============ 配置 LLM 区域 ============
+conf = Config()
+my_llm = ChatOpenAI(
+    api_key=conf.MODEL_API_KEY,
+    base_url=conf.MODEL_BASE_URL,
+    model=conf.MODEL_NAME
+)
+
+
+# ============ 定义 Schema ============
+class Formula(BaseModel):
+    名称: str = Field(default="")
+    别名: str = Field(default="")
+    出处: str = Field(default="")
+    组成: str = Field(default="")
+    功效: str = Field(default="")
+    主治: str = Field(default="")
+    用法: str = Field(default="")
+    禁忌: str = Field(default="")
+    功效分类: str = Field(default="")
+    方剂分类: str = Field(default="")
+    出处标准化: str = Field(default="")
+
+
+parser = PydanticOutputParser(pydantic_object=Formula)
+
+# ============ 构建 Prompt ============
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "你是一个中医药知识抽取助手，请严格按照 JSON Schema 输出"),
+    ("human", """从下面文本中提取字段并输出 JSON。
+
+文本内容：
+{content}
+
+需要抽取的字段：
+- 名称
+- 别名
+- 出处
+- 组成
+- 功效
+- 主治
+- 用法
+- 禁忌
+- 功效分类（excel中的一级标题: {一级标题}）
+- 方剂分类（excel中的二级标题: {二级标题}）
+- 出处标准化
+
+请严格返回一个 JSON 对象，符合以下格式：
+{format_instructions}
+""")
+]).partial(format_instructions=parser.get_format_instructions())
+
+
+# ============ 主函数 ============
+def extract_formula_info(folder_path, excel_path, output_path="extracted_results.jsonl"):
+    """
+    遍历方剂文件夹，使用大模型抽取方剂信息并保存到 JSONL 文件
+    :param folder_path: 存放方剂 txt 文件的目录
+    :param excel_path: Excel 文件路径，至少包含 [一级标题, 二级标题, 方剂名称] 三列
+    :param output_path: 输出的 jsonl 文件路径
+    """
+
+    # 读取 Excel，构造 mapping
+    df = pd.read_excel(excel_path)
+    excel_mapping = {
+        str(row["方剂名称"]).strip(): (str(row["一级标题"]).strip(), str(row["二级标题"]).strip())
+        for _, row in df.iterrows()
+    }
+
+    # 已处理的方剂集合（支持断点续存）
+    processed = set()
+    if os.path.exists(output_path):
+        with open(output_path, "r", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    record = json.loads(line)
+                    processed.add(record["名称"])
+                except:
+                    continue
+
+    # 遍历文件夹
+    files = [f for f in os.listdir(folder_path) if f.endswith(".txt")]
+    for file in tqdm(files, desc="抽取方剂信息"):
+        formula_name = file.replace(".txt", "")
+
+        # 跳过已处理的
+        if formula_name in processed:
+            continue
+
+        file_path = os.path.join(folder_path, file)
+        with open(file_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        # 从 excel 映射中获取分类
+        一级标题, 二级标题 = excel_mapping.get(formula_name, ("", ""))
+
+        # 调用 LLM
+        try:
+            chain = prompt | my_llm | parser
+            result: Formula = chain.invoke({
+                "content": content,
+                "一级标题": 一级标题,
+                "二级标题": 二级标题
+            })
+            result_dict = result.dict()
+        except Exception as e:
+            print(f"❌ 解析失败: {formula_name}, error={e}")
+            result_dict = Formula(
+                名称=formula_name,
+                功效分类=一级标题,
+                方剂分类=二级标题
+            ).dict()
+
+        # 如果模型没抽取出分类，就补上
+        result_dict["功效分类"] = result_dict.get("功效分类", "") or 一级标题
+        result_dict["方剂分类"] = result_dict.get("方剂分类", "") or 二级标题
+        result_dict["名称"] = result_dict.get("名称", "") or formula_name
+
+        # 写入一条记录（jsonl）
+        with open(output_path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(result_dict, ensure_ascii=False) + "\n")
+
+
+# ============ 执行入口 ============
+if __name__ == "__main__":
+    extract_formula_info(
+        get_file_path("__001__clawler/方剂"),
+        get_file_path("__001__clawler/fangji.xlsx"),
+        "extracted_results.jsonl"
+    )
+
+
+已知我的代码如上所示，我希望在这个代码基础上进行修改，我希望保存的时候，保存成
+{
+    formulaList:[{
+  "名称": "三妙丸",
+  "别名": "",
+  "出处": "《医学正传》卷五",
+  "组成": "黄柏120克（切片，酒拌略炒）苍术180克（米泔浸一二宿，细切，焙干）川牛膝（去芦）60克",
+  "功效": "清热燥湿，消肿止痛",
+  "主治": "湿热下注，足膝红肿热痛，下肢沉重，小便黄少",
+  "用法": "上药研为细末，面糊为丸，如梧桐子大。每服50～70丸，空腹时用姜、盐汤送下",
+  "禁忌": "",
+  "功效分类": "祛湿剂",
+  "方剂分类": "清热祛湿",
+  "出处标准化": "医学正传"
+},
+{
+  "名称": "藿朴夏苓汤",
+  "别名": "",
+  "出处": "《感证辑要》引《医原》",
+  "组成": "藿香二钱（6g）川朴一钱（3g）姜半夏一钱半（4.5g）赤茯苓三钱（9g）杏仁三钱（9g）生苡仁四钱（12g）白蔻仁一钱（3g）猪苓三钱（9g）淡香豉三钱（9g）泽泻一钱半（4.5g）通草一钱（3g）",
+  "功效": "解表化湿",
+  "主治": "湿温初起，身热恶寒，肢体困倦，胸闷口腻，舌苔薄白，脉濡缓",
+  "用法": "水煎服",
+  "禁忌": "",
+  "功效分类": "祛湿剂",
+  "方剂分类": "清热祛湿",
+  "出处标准化": ""
+}]
+}
